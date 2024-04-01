@@ -24,17 +24,17 @@ body {
     <script>
         var canvasX = document.getElementById("xCanvas");
         canvasX.width = 10000;
-        canvasX.height = 416;
+        canvasX.height = 414;
         var contextX = canvasX.getContext("2d");
         
         var canvasY = document.getElementById("yCanvas");
         canvasY.width = 10000;
-        canvasY.height = 416;
+        canvasY.height = 414;
         var contextY = canvasY.getContext("2d");
 
         var canvasZ = document.getElementById("zCanvas");
         canvasZ.width = 10000;
-        canvasZ.height = 416;
+        canvasZ.height = 414;
         var contextZ = canvasZ.getContext("2d");
         var a = 0;
 
@@ -78,25 +78,25 @@ body {
             
             y = y / 2;
             contextY.beginPath();
-            contextY.moveTo(a - 1, 208 - MaeY / 2);
-            contextY.lineTo(a, 208 - y / 2)
+            contextY.moveTo(a - 1, 207 - MaeY / 2);
+            contextY.lineTo(a, 207 - y / 2)
             contextY.lineWidth = 1.25;
             contextY.stroke();
             MaeY = y;
 
             z = z / 2;
             contextZ.beginPath();
-            contextZ.moveTo(a - 1, 208 - MaeZ / 2);
-            contextZ.lineTo(a, 208 - z / 2)
+            contextZ.moveTo(a - 1, 207 - MaeZ / 2);
+            contextZ.lineTo(a, 207 - z / 2)
             contextZ.lineWidth = 1.25;
             contextZ.stroke();
             MaeZ = z;
 
             a++;
             if (a > 10000) {
-                contextX.clearRect(0, 0, 10000, 416);
-                contextY.clearRect(0, 0, 10000, 416);
-                contextZ.clearRect(0, 0, 10000, 416);
+                contextX.clearRect(0, 0, 10000, 414);
+                contextY.clearRect(0, 0, 10000, 414);
+                contextZ.clearRect(0, 0, 10000, 414);
                 a = 0;
             }
         })
