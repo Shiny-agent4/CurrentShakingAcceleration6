@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>CurrentShakingAcceleration6</title>
+</head>
+
+<style type="text/css">
+body {
+  zoom: 0.4;
+  -moz-transform: scale(0.4);
+}
+</style>
+
+<body>
+    <h1 id="x"></h1>
+    <canvas id="xCanvas"></canvas>
+    <h1 id="y"></h1>
+    <canvas id="yCanvas"></canvas>
+    <h1 id="z"></h1>
+    <canvas id="zCanvas"></canvas>
+    <button id="Kyoka" onclick="requesPermission()">加速度センサへの許可を求める</button>
+    <script>
+        var canvasX = document.getElementById("xCanvas");
+        canvasX.width = 10000;
+        canvasX.height = 416;
+        var contextX = canvasX.getContext("2d");
+        
+        var canvasY = document.getElementById("yCanvas");
+        canvasY.width = 10000;
+        canvasY.height = 416;
+        var contextY = canvasY.getContext("2d");
+
+        var canvasZ = document.getElementById("zCanvas");
+        canvasZ.width = 10000;
+        canvasZ.height = 416;
+        var contextZ = canvasZ.getContext("2d");
+        var a = 0;
+
+        function requesPermission() {
+            if (window.DeviceOrientationEvent) {
+                if (DeviceOrientationEvent.requestPermission) {
+                    DeviceOrientationEvent.requestPermission().then(function (response) {
+                        if (response === "granted") {
+                            //document.getElementById("Kyoka").style.visibility = hidden;
+                        }
+                    }).catch(function (e) {
+                        alert("エラーが発生しました。" + e);
+                    });
+                }
+            }
+        }
+
+        var n = 2;	// 小数点第n位
+        var MaeX = 0;
+        var MaeY = 0;
+        var MaeZ = 0;
+
+        //加速度
+        window.addEventListener("devicemotion", function (e) {
+            var acc = e.acceleration;
+            var x = acc.x*100;
+            var y = acc.y*100
+            var z = acc.z*100;
+
+            document.getElementById("x").innerText = "X(PC:DU成分)(TAB:FB成分) : " + x + "gal";
+            document.getElementById("y").innerText = "Y(PC:RL成分)(TAB:RL成分) : " + y + "gal";
+            document.getElementById("z").innerText = "Z(PC:FB成分)(TAB:DU成分) : " + z + "gal";
+
+            x = x / 2;
+            contextX.beginPath();
+            contextX.moveTo(a - 1, 208 - MaeX / 2);
+            contextX.lineTo(a, 208 - x / 2)
+            contextX.lineWidth = 1.25;
+            contextX.stroke();
+            MaeX = x;
+            
+            y = y / 2;
+            contextY.beginPath();
+            contextY.moveTo(a - 1, 208 - MaeY / 2);
+            contextY.lineTo(a, 208 - y / 2)
+            contextY.lineWidth = 1.25;
+            contextY.stroke();
+            MaeY = y;
+
+            z = z / 2;
+            contextZ.beginPath();
+            contextZ.moveTo(a - 1, 208 - MaeZ / 2);
+            contextZ.lineTo(a, 208 - z / 2)
+            contextZ.lineWidth = 1.25;
+            contextZ.stroke();
+            MaeZ = z;
+
+            a++;
+            if (a > 10000) {
+                contextX.clearRect(0, 0, 10000, 416);
+                contextY.clearRect(0, 0, 10000, 416);
+                contextZ.clearRect(0, 0, 10000, 416);
+                a = 0;
+            }
+        })
+
+    </script>
+</body>
+
+</html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+</head>
+
+<body>
+<div id="txt">ここにデータを表示</div>             <!-- データを表示するdiv要素 -->
+
+<script>
+var aX = 0, aY = 0, aZ = 0;                     // 加速度の値を入れる変数を3個用意
+ 
+// 加速度センサの値が変化したら実行される devicemotion イベント
+window.addEventListener("devicemotion", (dat) => {
+    aX = dat.accelerationIncludingGravity.x; 
+    aY = dat.accelerationIncludingGravity.y;
+    aZ = dat.accelerationIncludingGravity.z;
+});
+ 
+// 指定時間ごとに繰り返し実行される setInterval(実行する内容, 間隔[ms]) タイマーを設定
+var timer = window.setInterval(() => {
+    displayData();      // displayData 関数を実行
+}, 33); // 33msごとに（1秒間に約30回）
+ 
+// データを表示する displayData 関数
+function displayData() {
+    var txt = document.getElementById("txt");   // データを表示するdiv要素の取得
+    txt.innerHTML = "加速度センサの値<br>x: " + aX + "<br>"         // x軸の値
+                  + "y: " + aY + "<br>"         // y軸の値
+                  + "z: " + aZ;                 // z軸の値
+}
+
+</script>
+ 
+</body>
+</html>
